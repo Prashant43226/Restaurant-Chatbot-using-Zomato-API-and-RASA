@@ -1,4 +1,4 @@
-# fRestaurant-Chatbot using Zomato API and RASA
+# Restaurant-Chatbot using Zomato API and RASA
 
 This is the **Complete Version** of the Chatbot.
 
