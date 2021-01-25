@@ -4,7 +4,7 @@ This is the **Complete Version** of the Chatbot.
 
 Complete Flow is described by:
 <p align="center">
-  <img width="460" height="300" src="restaurant chatbot.png" alt="Conversation diagram">
+  <img width="600" height="600" src="restaurant chatbot.png" alt="Conversation diagram">
 </p>
 
 ## Setup and installation
