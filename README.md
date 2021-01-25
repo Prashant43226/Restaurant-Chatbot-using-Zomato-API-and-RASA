@@ -1,8 +1,23 @@
-# food-chatbot
+# fRestaurant-Chatbot using Zomato API and RASA
 
-This is the **Complete Version** of the Chatbot and can be directly used with slack by filling **slack_credentials.yml** and **Zomato API's** key in the **actions.py** files.
+This is the **Complete Version** of the Chatbot.
 
 ## Setup and installation
+
+If you are a Windows user,Then install Anaconda navigator .
+
+For creating the bot, we need to install Python, RASA NLU and spaCy language models along with few dependencies. It would be good to create a separate virtual environment so as to keep the installations clean and together at one place. I will be using Conda to do the setup and installations. You are free to use virtualenv for the same as well.
+
+# Create Virtual environment with python 3.6
+```
+conda create –name chatbot_env python=3.6
+```
+# Activate the environment
+```
+conda activate chatbot_env
+```
+
+Then from your Virtual Environment open a terminal in your folder 
 
 If you haven’t installed Rasa NLU and Rasa Core yet, you can do it by navigating to the project directory and running:  
 ```
@@ -14,7 +29,22 @@ You also need to install a spaCy English language model. You can install it by r
 ```
 python -m spacy download en
 ```
+You might find dependency issues.
 
+The following dependency issues might arise:
+
+If you are using Python>=3.8 consider degrading it as Tensorflow 2.0.0 does not support this.From terminal 
+```
+conda install python=3.5.0
+```
+Another dependency issue might arise after installing Spacy and creating a link.In this case :
+
+1.Go to your Anaconda command prompt for your chatbot environment(in this case :Anaconda command prompt(chatbot_env))
+2.Open the prompt in Administrator mode.
+3.Create a symbolic link between your Python\Python36\site_packages\spacy\data and envs\rasa\Lib\site-packages\en_core_web_md using the makelink command as given below
+```
+mklink /d C:\Users\username\AppData\Roaming\Python\Python36\site-packages\spacy\data\en C:\Users\username\Anaconda3\envs\rasa\Lib\site-packages\en_core_web_md
+```
 ### Files for Rasa NLU model
 
 - **data/nlu_data.md** file contents training data for the NLU model.
@@ -36,7 +66,7 @@ pipeline: spacy_sklearn
 
 ## How to run locally
 
-**Note**: If running on Windows, you will either have to [install make](http://gnuwin32.sourceforge.net/packages/make.htm) or copy the following commands from the [Makefile](https://github.com/mohdsanadzakirizvi/food-chatbot/blob/master/complete_version/Makefile)
+**Note**: If running on Windows, you will either have to [install make](http://gnuwin32.sourceforge.net/packages/make.htm) or copy the following commands from the [Makefile](https://github.com/Prashant43226/Restaurant-Chatbot-using-Zomato-API-and-RASA/blob/main/Makefile)
 
 1. You can train the Rasa NLU model by running:  
 ```make train-nlu```  
@@ -54,59 +84,14 @@ This will start the server for emulating the custom action.
 ```make cmdline```  
 This will load the assistant in your terminal for you to chat.
 
-## How to deploy to Slack
+You can also run the following from terminal
 
-1. Go to your Slack app's settings page and use the **Bot User OAuth Access Token:** 
-![](../images/bot_token.png)
-And add this in the **slack_credentials.yml** file:
+1.You can train the Rasa model using
+train rasa
 
-```python
-slack:
-  slack_token: "Bot User OAuth Access Token"
-  slack_channel: 
-```
+2.train rasa nlu
 
-2. Start the action server by typing the following command in terminal:
+3.train rasa core
 
 ```
-make action-server
-```
-
-3. Setup ngrok for the port that the action server is using by the following command:
-
-```
-ngrok http 5055
-```
-
-This will give you an output like the following:
-![](../images/ngrok_action.png)
-
-4. Copy the highlighted url in the above image into your **endpoints.yml** file:
-
-```python
-action_endpoint: "your_url_here/webhook"
-  url: 
-```
-
-5. Start the core server in another terminal window:
-
-```
-python -m rasa_core.run -d models/current/dialogue -u models/current/nlu --port 5002 --connector slack --credentials slack_credentials.yml --endpoints endpoints.yml
-```
-
-This will start the server at port 5002.
-
-6. Now you have to expose this port to the world by using ngrok, open another terminal and type:
-
-```
-ngrok http 5002
-```
-
-7. Take the above url and paste it into the **Events Subscription** page of your slack app in the following format:
-
-```
-your_url_here/webhooks/slack/webhook
-```
-
-![](../images/event_subs.png)
-And you should now be able to talk to your chatbot in Slack!
+This chatbot project is still under development.
